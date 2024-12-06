@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            transition: background-color 0.5s ease;
+        }
+
+        header {
+            background-color: GRAY;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            background-color: #0d0d0e;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 18px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            background-color: #ff9800;
+            color: #fff;
+        }
+
+        .product-list {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        .product {
+            width: 250px;
+            background-color: white;
+            margin: 15px;
+            padding: 15px;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .product img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .product img:hover {
+            transform: scale(1.1);
+        }
+
+        .product h3 {
+            font-size: 1.2em;
+            margin: 10px 0;
+        }
+
+        .product p {
+            color: #888;
+            margin-bottom: 10px;
+        }
+
+        .product .price {
+            font-weight: bold;
+            color: #ff9800;
+            font-size: 1.2em;
+        }
+
+        .product a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #ff9800;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .product a:hover {
+            background-color: #f57c00;
+            transform: scale(1.05);
+        }
+
+        .cart-icon {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #ff9800;
+            padding: 10px;
+            border-radius: 50%;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .cart-icon:hover {
+            background-color: #f57c00;
+            transform: scale(1.2);
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .login-form, .register-form {
+            width: 100%;
+            max-width: 400px;
+            margin: 30px auto;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .login-form:hover, .register-form:hover {
+            transform: translateY(-5px);
+        }
+
+        input[type="text"], input[type="email"], input[type="password"], input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            transition: border 0.3s ease;
+        }
+
+        input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus, input[type="file"]:focus {
+            border-color: #ff9800;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #ff9800;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #f57c00;
+            transform: scale(1.05);
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            0% {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Placeholder for potential vulnerabilities (for testing only) */
+        .input-field-vulnerable {
+            border: 1px solid red;
+            background-color: #ffdddd;
+        }
+
+        .input-field-vulnerable:focus {
+            border-color: red;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <h1>Welcome to Our Online Store</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="register.html">Register</a></li>
+                <li><a href="cart.html">Cart</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Featured Products -->
+    <section class="product-list">
+        <!-- Product 1 -->
+        <div class="product">
+            <img src="https://th.bing.com/th/id/OIP.LV3THsFV20GF9KWDsRrFNgHaEp?w=1280&h=804&rs=1&pid=ImgDetMain" alt="Product 1">
+            <h3>Smartphone</h3>
+            <p class="price">$199.99</p>
+            <p><strong>Brand:</strong> XYZ</p>
+            <p><strong>Category:</strong> Electronics</p>
+            <p><strong>Rating:</strong> ★★★★☆</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <a href="product.html?product_id=1">View Details</a>
+        </div>
+        <!-- Product 2 -->
+        <div class="product">
+            <img src="https://th.bing.com/th/id/R.c7a9d3cf85e24d26511a7b7e82470fbe?rik=BkAdR2mRwwRKvg&pid=ImgRaw&r=0" alt="Product 2">
+            <h3>Laptop</h3>
+            <p class="price">$899.99</p>
+            <p><strong>Brand:</strong> Dell</p>
+            <p><strong>Category:</strong> Electronics</p>
+            <p><strong>Rating:</strong> ★★★★★</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <a href="product.html?product_id=2">View Details</a>
+        </div>
+        <!-- Additional Products -->
+        <div class="product">
+            <img src="https://th.bing.com/th/id/OIP.5jJIbY4x0gq-B0QWeev9fwHaHa?w=800&h=800&rs=1&pid=ImgDetMain" alt="Product 3">
+            <h3>Headphones</h3>
+            <p class="price">$79.99</p>
+            <p><strong>Brand:</strong> XYZ</p>
+            <p><strong>Category:</strong> Electronics</p>
+            <p><strong>Rating:</strong> ★★★☆☆</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <a href="product.html?product_id=3">View Details</a>
+        </div>
+        <div class="product">
+            <img src="https://th.bing.com/th/id/OIP.W2jW8JUQThAR0OtDk1_NgAHaHa?w=600&h=600&rs=1&pid=ImgDetMain" alt="Product 4">
+            <h3>Camera</h3>
+            <p class="price">$349.99</p>
+            <p><strong>Brand:</strong> Canon</p>
+            <p><strong>Category:</strong> Electronics</p>
+            <p><strong>Rating:</strong> ★★★★☆</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <a href="product.html?product_id=4">View Details</a>
+        </div>
+        <div class="product">
+            <img src="https://th.bing.com/th/id/OIP.i_JiriwDiBwMxDFZJbLvGAHaHa?w=800&h=800&rs=1&pid=ImgDetMain" alt="Product 5">
+            <h3>Tablet</h3>
+            <p class="price">$499.99</p>
+            <p><strong>Brand:</strong> Samsung</p>
+            <p><strong>Category:</strong> Electronics</p>
+            <p><strong>Rating:</strong> ★★★★☆</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <a href="product.html?product_id=5">View Details</a>
+        </div>
+        <div class="product">
+            <img src="https://th.bing.com/th/id/OIP.LxkbvjD2OtBvwWKISh2ufQHaHa?rs=1&pid=ImgDetMain" alt="Product 6">
+            <h3>Smartwatch</h3>
+            <p class="price">$129.99</p>
+            <p><strong>Brand:</strong> Fitbit</p>
+            <p><strong>Category:</strong> Electronics</p>
+            <p><strong>Rating:</strong> ★★★★☆</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <a href="product.html?product_id=6">View Details</a>
+        </div>
+        <div class="product">
+            <img src="https://th.bing.com/th/id/OIP.GMQogqo3nGkhZ_4wM8be9gHaF1?w=1200&h=946&rs=1&pid=ImgDetMain" alt="Product 7">
+            <h3>Speaker</h3>
+            <p class="price">$59.99</p>
+            <p><strong>Brand:</strong> JBL</p>
+            <p><strong>Category:</strong> Electronics</p>
+            <p><strong>Rating:</strong> ★★★★☆</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <a href="product.html?product_id=7">View Details</a>
+        </div>
+        <div class="product">
+            <img src="https://m.media-amazon.com/images/I/71dmPzpFEpL._AC_SL1500_.jpg" alt="Product 8">
+            <h3>Monitor</h3>
+            <p class="price">$199.99</p>
+            <p><strong>Brand:</strong> LG</p>
+            <p><strong>Category:</strong> Electronics</p>
+            <p><strong>Rating:</strong> ★★★★★</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <a href="product.html?product_id=8">View Details</a>
+        </div>
+        <div class="product">
+            <img src="https://th.bing.com/th/id/OIP.nUK-swlCPQ6n6d3GhzkoSgHaFj?rs=1&pid=ImgDetMain" alt="Product 9">
+            <h3>Keyboard</h3>
+            <p class="price">$49.99</p>
+            <p><strong>Brand:</strong> Logitech</p>
+            <p><strong>Category:</strong> Accessories</p>
+            <p><strong>Rating:</strong> ★★★☆☆</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <a href="product.html?product_id=9">View Details</a>
+        </div>
+        <div class="product">
+            <img src="https://i5.walmartimages.com/asr/fe47a4ab-5ecc-414f-ae49-6c7a2669e11b_1.42489ef0e331c97f5252d7fc211303a1.jpeg" alt="Product 10">
+            <h3>Mouse</h3>
+            <p class="price">$25.99</p>
+            <p><strong>Brand:</strong> Microsoft</p>
+            <p><strong>Category:</strong> Accessories</p>
+            <p><strong>Rating:</strong> ★★★★☆</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <a href="product.html?product_id=10">View Details</a>
+        </div>
+    </section>
+
+    <!-- Vulnerable input field for testing -->
+    <div class="product input-field-vulnerable">
+        <h3>Test Vulnerability</h3>
+        <form method="POST" action="submit.php">
+            <label for="test-input">Enter something:</label>
+            <input type="text" id="test-input" name="test-input" class="input-field-vulnerable" required>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <!-- Cart Icon -->
+    <div class="cart-icon">
+        <span>🛒</span>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Online Store. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Add smooth scroll effect to the cart icon
+        document.querySelector('.cart-icon').addEventListener('click', () => {
+            window.location.href = 'cart.html';
+        });
+
+        // Creators information
+        const creators = [
+            { name: "Alice Smith", role: "Frontend Developer" },
+            { name: "Bob Johnson", role: "Backend Developer" },
+            { name: "Charlie Brown", role: "UI/UX Designer" }
+        ];
+
+        console.log("Creators of this project:");
+        creators.forEach(creator => {
+            console.log(`${creator.name} - ${creator.role}`);
+        });
+
+        // Adding a simple effect on product hover
+        const products = document.querySelectorAll('.product');
+        products.forEach(product => {
+            product.addEventListener('mouseover', () => {
+                product.style.transform = 'scale(1.05)';
+                product.style.transition = 'transform 0.3s ease';
+            });
+            product.addEventListener('mouseout', () => {
+                product.style.transform = 'scale(1)';
+            });
+        });
+
+        // Adding a simple alert for the vulnerable input
+        const vulnerableInput = document.getElementById('test-input');
+        vulnerableInput.addEventListener('input', () => {
+            if (vulnerableInput.value.includes('<script>')) {
+                alert('Potential XSS attack detected!');
+            }
+        });
+
+        // Adding a random product suggestion feature
+        const suggestionButton = document.createElement('button');
+        suggestionButton.textContent = 'Suggest a Random Product';
+        suggestionButton.style.margin = '20px auto';
+        suggestionButton.style.display = 'block';
+        suggestionButton.style.padding = '10px 20px';
+        suggestionButton.style.backgroundColor = '#007bff';
+        suggestionButton.style.color = 'white';
+        suggestionButton.style.border = 'none';
+        suggestionButton.style.borderRadius = '5px';
+        suggestionButton.style.cursor = 'pointer';
+        document.body.appendChild(suggestionButton);
+
+        suggestionButton.addEventListener('click', () => {
+            const randomProductIndex = Math.floor(Math.random() * products.length);
+            const randomProduct = products[randomProductIndex];
+            alert(`How about checking out: ${randomProduct.querySelector('h3').textContent}?`);
+        });
+    </script>
+</body>
+</html>
